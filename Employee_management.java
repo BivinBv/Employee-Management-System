@@ -1,5 +1,11 @@
 package emp_management_sys;
+import java.awt.List;
+import java.io.*;
+import java.io.*;
+import java.util.*;
+
 import java.sql.*;
+import java.util.ArrayList;
 class Empmng
 {
 	private static Connection getconnection() throws Exception
@@ -97,13 +103,42 @@ class Empmng
 				}
 			}catch(Exception e) {System.out.println(e);}
 		}
-//----------------------------------Export to text-------------------------------------------------------------------------------		
+//----------------------------------Export to text file-------------------------------------------------------------------------------
+		void print()
+		{
+			try
+			{
+				String query="select basic_details.id,First_name,Last_name,Designation,PAN_number, Account_number,Bank_name,IFSC_code from "
+						+ "basic_details inner join bank_information on basic_details.id=bank_information.id";
+				Statement st=getconnection().createStatement();
+				ResultSet rs=st.executeQuery(query);
+				while(rs.next())
+				{
+					int id=rs.getInt("id");
+					String fname=rs.getString("First_name");
+					String lname=rs.getString("Last_name");
+					String desig=rs.getString("Designation");
+					String PAN=rs.getString("PAN_number");
+					String Accno=rs.getString("Account_number");
+					String Bank_name=rs.getString("Bank_name");
+					String IFSC=rs.getString("IFSC_code");
+					
+					FileWriter fw=new FileWriter("C:\\Users\\BIVIN\\OneDrive\\Documents\\Bivin\\file.txt",true);
+					fw.write("\n Employee ID: TV"+id+"\n Name: "+fname+" "+lname+"\n Designation: "+desig+"\n PAN Number: "+PAN);
+				    fw.write("\n Account_number: "+Accno+"\n Bank Name: "+Bank_name+"\n IFSC code: "+IFSC+"\n-------------------------");
+					fw.close();
+				}
+				System.out.println("Saved to file");
+	
+			}catch(Exception e) {}
+		}
+
 }
 public class Employee_management {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Empmng e=new Empmng();
-		e.block();
+		e.print();
 
 	}
 
