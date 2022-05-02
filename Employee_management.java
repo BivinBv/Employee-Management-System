@@ -68,21 +68,42 @@ class Empmng
 				String adddate=rs.getString("Add_date");
 				String status=rs.getString("status");
 				
-				System.out.println("Name: "+First_name+" "+Last_name+"   Designation: "+Designation+"   Official_address: "+address+"  Mobile_Number:  "
-						+Mobileno+"   Date: "+adddate);
+				System.out.println("Id:"+"TV"+id+",  Name: "+First_name+" "+Last_name+",   Designation: "+Designation+",   Official_address: "+address+",  Mobile_Number:  "
+						+Mobileno+",   Date: "+adddate);
 				System.out.println("Status: "+status);
+				System.out.println();
 				
 			}
 			
 		}catch(Exception e) {System.out.println(e);}
 	}
-//---------------------------------Blocking---------------------------------------------------------------------------------------	
+//---------------------------------Blocking---------------------------------------------------------------------------------------
+		void block()
+		{
+			try
+			{
+				int status=0;
+				String query="update basic_details set status='Inactive' where id=?";
+				PreparedStatement ps=getconnection().prepareStatement(query);
+				ps.setInt(1, 5);
+				status=ps.executeUpdate();
+				if(status>0)
+				{
+					System.out.println("User Blocked");
+				}
+				else
+				{
+					System.out.println("user is not blocked");
+				}
+			}catch(Exception e) {System.out.println(e);}
+		}
+//----------------------------------Export to text-------------------------------------------------------------------------------		
 }
 public class Employee_management {
 
 	public static void main(String[] args) {
 		Empmng e=new Empmng();
-		e.view();
+		e.block();
 
 	}
 
